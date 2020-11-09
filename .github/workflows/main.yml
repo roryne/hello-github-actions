@@ -1,11 +1,15 @@
-name: A workflow for my Hello World file
-on: push
+name: End-to-end tests
+on: [push]
 jobs:
-  build:
-    name: Hello world action
+  cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: ./action-a
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v1
         with:
-          MY_NAME: "Mona"
+          build: yarn web:build:profile
+          start: yarn web:serve
+          wait-on: http://localhost:3000
